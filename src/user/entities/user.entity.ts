@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import e from 'express';
+import mongoose, { Document, Types } from 'mongoose';
 
 
 @Schema({
@@ -20,4 +20,14 @@ export class User extends Document {
     age: number;
     @Prop()
     isActive: boolean;
-}   
+}
+
+import { SchemaFactory } from '@nestjs/mongoose';
+
+export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.virtual('enrollments', {
+  ref: 'Enrollment',
+  localField: '_id',
+  foreignField: 'user',
+});
