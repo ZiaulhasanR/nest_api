@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user/user.controller';
 import { ProductService } from './product/product.service';
-import { UserService } from './user/user.service';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from './config/configuration';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,8 +20,9 @@ import configuration from './config/configuration';
         uri: config.get<string>('database.db_uri'),
       }),
     }),
+    UserModule,
+    AuthModule,
   ],
-  controllers: [UserController, AuthController],
-  providers: [ProductService, UserService, AuthService],
+  providers: [ProductService],
 })
 export class AppModule {}
